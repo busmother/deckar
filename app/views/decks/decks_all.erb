@@ -1,0 +1,10 @@
+<h2>Your Decks:</h2>
+<%@decks.each do |deck|%>
+<p><<%=deck.name%></p>
+<%end%>
+<a href="/new">Create New Deck</a>
+<h2>All Decks:</h2>
+<%@decks.each do |deck|%>
+<p><%=deck.name%></p>
+<%end%>
+<a href="/logout">Logout</a>
