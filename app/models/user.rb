@@ -5,11 +5,11 @@ class User < ActiveRecord::Base
     has_many :decks
     has_many :cards, through: :decks
 
-    def slug
+    def slug #could be combined with the deck.rb slug methods
         self.username.gsub(" ","-")
     end
 
-    def self.find_by_slug(slug)
+    def self.find_by_slug(slug) #could be combined with the deck.rb slug methods
         name = slug.gsub("-"," ")
         User.find_by(username :name)
     end

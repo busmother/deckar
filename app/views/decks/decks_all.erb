@@ -1,10 +1,12 @@
 <h2>Your Decks:</h2>
-<%@decks.each do |deck|%>
-<p><<%=deck.name%></p>
+<%@user.decks.each do |deck|%>
+<p><a href="/decks/<%=deck.slug%>"> <%=deck.name%></p>
 <%end%>
 <a href="/new">Create New Deck</a>
 <h2>All Decks:</h2>
 <%@decks.each do |deck|%>
-<p><%=deck.name%></p>
+<%# you could make this so that the user is not the 
+current user and these are "other decks" %>
+<p><a href="deck/<%=deck.user%>/<%=deck.slug%>"> <%=deck.name%></p>
 <%end%>
 <a href="/logout">Logout</a>

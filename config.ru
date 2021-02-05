@@ -1,20 +1,10 @@
-source 'http://rubygems.org'
+require './config/environment'
 
-gem 'sinatra'
-gem 'activerecord', '~> 6.0.0', :require => 'active_record'
-gem 'sinatra-activerecord', :require => 'sinatra/activerecord'
-gem 'rake'
-gem 'require_all'
-gem 'sqlite3'
-gem 'thin'
-gem 'shotgun'
-gem 'pry'
-gem 'bcrypt'
-gem "tux"
-
-group :test do
-  gem 'rspec'
-  gem 'capybara'
-  gem 'rack-test'
-  gem 'database_cleaner'
+if ActiveRecord::Base.connection.migration_context.needs_migration?
+  raise 'Migrations are pending. Run `rake db:migrate` to resolve the issue.'
 end
+
+use Rack::MethodOverride
+use DecksController
+use UsersController
+run ApplicationController
