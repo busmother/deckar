@@ -1,23 +1,23 @@
 <h2>Sign in to Deckar</h2>
 <form action = "/login" method="post">
     <label for="username">Username:</label>
-    <input type="text" name="username" placeholder="rick_deckard">
+    <input type="text" name="username" placeholder="rick_deckard"><br>
     <label for="password">Password:</label>
     <input type="password" name="password" placeholder="3l3ctricsh33p">
     <input type="submit" value="Log in">
 </form>
 <h2>Sign Up for Deckar</h2>
 <form action = "/signup" method="post">
-    <label for="username">Username:</label>
-    <input type="text" name="username" placeholder="rick_deckard">
     <label for="email">E-mail:</label>
-    <input type-="text" name="email" placeholder="d.rick@lapd.org">
+    <input type-="text" name="email" placeholder="d.rick@lapd.org"><br>
+    <label for="username">Username:</label>
+    <input type="text" name="username" placeholder="rick_deckard"><br>
     <label for="password">Password:</label>
     <input type="password" name="password" placeholder="3l3ctricsh33p">
     <input type="submit" value="Sign Up">
 </form>
-<% if flash[:my_errors]%>
-<%flash[:my_errors].each do |error|%>
-<p style = "color:red;"><%= error %></p>
-<%end%>
-<%end%>
+<%# <% if flash[:my_errors]%>
+<%# <%flash[:my_errors].each do |error|%> 
+<%# <p style = "color:red;"><%= error %></p>
+<%# <%end%> 
+<%# <%end%> 

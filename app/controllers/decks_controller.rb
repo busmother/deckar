@@ -6,7 +6,6 @@ class DecksController < ApplicationController
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @decks = Deck.all
-            # binding.pry
             erb :'decks/decks_all'
         else
             @error = "Please sign in to view decks"
@@ -15,15 +14,23 @@ class DecksController < ApplicationController
     end
 
     post '/new-deck' do
-        # binding.pry
-        @deck = Deck.new(name: params[:name])
-        @deck.save
-        redirect '/add-cards'
+        if Helpers.is_logged_in?(session)
+            @deck = Deck.new(name: params[:name])
+            @deck.save
+            redirect '/add-cards'
+        else
+            @error = "Please sign in to create decks"
+            redirect '/'
+        end
     end
 
     get '/add-cards' do
-        # binding.pry
-        erb :'decks/add_cards'
+        if Helpers.is_logged_in?(session)
+            erb :'decks/add_cards'
+        else
+            @error = "Please sign in to add cards"
+            redirect '/'
+        end
     end
 
     get '/new' do
@@ -31,22 +38,43 @@ class DecksController < ApplicationController
             @user = Helpers.current_user(session)
             @decks = Deck.all
             erb :'decks/new'
+        else
+            @error = "Please sign in to create decks"
+            redirect '/'
         end
     end
 
-    get '/deck/:user/:slug' do
+    post '/add-cards' do
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
-            @deck = Deck.find_by_slug(params[:slug])
-            erb :'deck_show.erb'
+            @deck = Deck.create(name: params[:name], user_id: @user.id)
+            @number_of_cards = params[:number].to_i
+            # binding.pry
+            erb :'decks/add_cards'
+        else
+            @error = "Please sign in to add cards"
+            redirect '/'
         end
     end
 
-    post '/decks/:slug' do
+    get '/decks/:slug' do
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
             erb :'/decks/deck_show'
+        else
+            @error = "Please sign in to view decks"
+            redirect '/'
+        end
+    end
+
+    post '/decks/cards' do #should be more restful than this
+        if Helpers.is_logged_in?(session)
+            @user = Helpers.current_user(session)
+            @deck = Deck.find_by_slug(params[:slug])
+            erb :'/decks/deck_show'
+        else
+            @error = "Please sign in to view decks"
         end
     end
     
