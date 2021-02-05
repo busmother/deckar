@@ -16,3 +16,8 @@
     <input type="password" name="password" placeholder="3l3ctricsh33p">
     <input type="submit" value="Sign Up">
 </form>
+<% if flash[:my_errors]%>
+<%flash[:my_errors].each do |error|%>
+<p style = "color:red;"><%= error %></p>
+<%end%>
+<%end%>

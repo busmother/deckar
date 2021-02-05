@@ -59,4 +59,14 @@ class UsersController < ApplicationController
         redirect to '/'
     end
 
+    def create #this is untested and wildly experimental ;)
+        @user = User.create(user_params)
+        if @user.valid?
+            redirect_to user_path(@user)
+        else
+            flash[:my_errors] = @user.errors.full_messages
+            redirect_to new_user_path
+        end
+    end
+
 end

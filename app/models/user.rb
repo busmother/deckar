@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
     has_many :decks
     has_many :cards, through: :decks
 
+    validates :email, uniqueness: true
+    validates :name, uniqueness: true
+
     def slug #could be combined with the deck.rb slug methods
         self.username.gsub(" ","-")
     end
