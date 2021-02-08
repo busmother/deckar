@@ -1,0 +1,13 @@
+<form action = '/decks/<%=@deck.slug%>/edit' method = "POST">
+
+<form action="/decks/<%=@deck.slug%>/edit" method="POST">
+<%@number_of_cards.times do |i|%>
+New Card <%=i+1%>
+<label for="front">Front:</label>
+<input type="text" name="front" placeholde="Question">
+<label for="back">Back:</label>
+<input type="text" name="back" placeholde="Answer">
+<br>
+<%end%>
+<button name="submit" type="submit" value="Add Cards">Add Cards</button>
+</form>

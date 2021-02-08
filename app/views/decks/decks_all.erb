@@ -1,12 +1,15 @@
 <h2>Your Decks:</h2>
 <%@user.decks.each do |deck|%>
-<p><a href="/decks/<%=deck.slug%>"> <%=deck.name%></p>
+<p><a href="/decks/<%=deck.slug%>"> <%=deck.name%></a></p>
 <%end%>
-<a href="/new">Create New Deck</a>
+<form action='/new' method="GET">
+<button value='submit'>Create New Deck</button>
+</form>
+
 <h2>All Decks:</h2>
 <%@decks.each do |deck|%>
 <%# you could make this so that the user is not the 
 current user and these are "other decks" %>
-<p><a href="deck/<%=deck.user%>/<%=deck.slug%>"> <%=deck.name%></p>
+<p><a href="decks/<%=deck.user%>/<%=deck.slug%>"> <%=deck.name%></p>
 <%end%>
 <a href="/logout">Logout</a>

@@ -8,7 +8,7 @@
 
 <%if @deck.user_id == Helpers.current_user(session).id%>
 <p><em>Update your deck:</em><p>
-<form action="/add-cards" method="POST">
+<form action="decks/<%=@deck.slug%>/add-cards" method="POST">
 <p>Add<input type="number" name="number">more cards
 <button type="submit">Add</button></p>
 </form>

@@ -3,11 +3,7 @@ require 'pry'
 class UsersController < ApplicationController
 
     get '/' do
-        # if Helpers.is_logged_in?(session)
-        #     redirect '/decks'
-        # else
-            erb :index
-        # end
+        erb :index
     end
 
     post '/signup' do
@@ -50,13 +46,6 @@ class UsersController < ApplicationController
     get '/users/:slug' do
         @user = User.find_by_slug(slug)
         erb :'/users/show'
-    end
-
-    get '/logout' do
-        if Helpers.is_logged_in?(session)
-            session.clear
-        end
-        redirect to '/'
     end
 
     def create #this is untested and wildly experimental ;)

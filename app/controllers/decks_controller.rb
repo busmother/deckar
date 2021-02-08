@@ -2,7 +2,7 @@ require 'pry'
 
 class DecksController < ApplicationController
 
-    get '/decks' do
+    get '/decks' do #index action, index page to display all decks
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @decks = Deck.all
@@ -13,7 +13,7 @@ class DecksController < ApplicationController
         end
     end
 
-    post '/new-deck' do
+    get 'decks/new' do #new action, displays create decks form
         if Helpers.is_logged_in?(session)
             @deck = Deck.new(name: params[:name])
             @deck.save
@@ -44,7 +44,7 @@ class DecksController < ApplicationController
         end
     end
 
-    post '/add-cards' do
+    post '/decks' do #create action, creates one deck
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.create(name: params[:name], user_id: @user.id)
@@ -57,7 +57,7 @@ class DecksController < ApplicationController
         end
     end
 
-    get '/decks/:slug' do
+    get '/decks/:slug' do #show action, displays one deck based on the slug in the URL
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
@@ -69,7 +69,15 @@ class DecksController < ApplicationController
         end
     end
 
-    post '/decks/:slug/cards' do #should be more restful than this
+    get '/decks/:slug/edit' do #edit action, displays edit form based on the slug in the URL
+        
+    end
+
+    patch '/decks/:slug' do #update action modifies existing deck based on the slug in the URL
+        
+    end
+
+    post '/decks/:slug' do #used to be /decks/:slug
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
@@ -80,10 +88,15 @@ class DecksController < ApplicationController
     end
 
     get '/decks/:slug/play' do
-        erb :'/decks/play'
+        if Helpers.is_logged_in?(session)
+            @user = Helpers.current_user(session)
+            @deck = Deck.find_by_slug(params[:slug])
+            erb :'/decks/play'
+        else
+            redirect '/'
     end
 
-    delete '/decks/:slug/delete' do
+    delete '/decks/:slug' do #delete action, deletes one article based on the slug in the URL
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
@@ -93,6 +106,10 @@ class DecksController < ApplicationController
             redirect '/'
         end
 
+    end
+
+    get '/decks/:slug/add-cards' do
+        erb :add_cards
     end
 
 end
