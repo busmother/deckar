@@ -1,5 +1,22 @@
 <h3><%=@deck.name%></h3>
 <p>Congrats! you made it to a specific deck</p>
 <p>More specifically, you made it to <em><%=@deck.name%></em> </p>
-add cards button<br>
-edit button
+
+<form action="/decks/<%=@deck.slug%>/play" method="GET">
+<button type="submit">Test your knowledge</button>
+</form>
+
+<%if @deck.user_id == Helpers.current_user(session).id%>
+<p><em>Update your deck:</em><p>
+<form action="/add-cards" method="POST">
+<p>Add<input type="number" name="number">more cards
+<button type="submit">Add</button></p>
+</form>
+<form action="/decks/<%=@deck.slug%>/edit" method="GET">
+<button type="submit" value="edit">Edit Deck</button>
+</form>
+<form action="/decks/<%=@deck.slug%>/delete" method="POST">
+<input id="hidden" type="hidden" name="_method" value="delete">
+<button type="submit" value="delete">Delete Deck</button>
+</form>
+<%end%>

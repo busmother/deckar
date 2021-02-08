@@ -61,6 +61,7 @@ class DecksController < ApplicationController
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
+            # binding.pry
             erb :'/decks/deck_show'
         else
             @error = "Please sign in to view decks"
@@ -68,7 +69,7 @@ class DecksController < ApplicationController
         end
     end
 
-    post '/decks/cards' do #should be more restful than this
+    post '/decks/:slug/cards' do #should be more restful than this
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
@@ -77,5 +78,21 @@ class DecksController < ApplicationController
             @error = "Please sign in to view decks"
         end
     end
-    
+
+    get '/decks/:slug/play' do
+        erb :'/decks/play'
+    end
+
+    delete '/decks/:slug/delete' do
+        if Helpers.is_logged_in?(session)
+            @user = Helpers.current_user(session)
+            @deck = Deck.find_by_slug(params[:slug])
+            @deck.delete
+            redirect '/decks'
+        else
+            redirect '/'
+        end
+
+    end
+
 end
