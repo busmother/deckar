@@ -3,9 +3,10 @@ require 'pry'
 class DecksController < ApplicationController
 
     get '/decks' do #index action, index page to display all decks
-        if Helpers.is_logged_in?(session)
+        if Helpers.is_logged_in?(session) #looks like session isn't coming through
             @user = Helpers.current_user(session)
             @decks = Deck.all
+            # binding.pry
             erb :'decks/decks_all'
         else
             @error = "Please sign in to view decks"
@@ -17,14 +18,15 @@ class DecksController < ApplicationController
         if Helpers.is_logged_in?(session)
             @deck = Deck.new(name: params[:name])
             @deck.save
-            redirect '/add-cards'
+            redirect '/cards'
+            #erb :'/decks/new'
         else
             @error = "Please sign in to create decks"
             redirect '/'
         end
     end
 
-    get '/add-cards' do
+    get '/cards' do
         if Helpers.is_logged_in?(session)
             erb :'decks/add_cards'
         else
@@ -61,6 +63,7 @@ class DecksController < ApplicationController
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
+            @cards = @deck.cards
             # binding.pry
             erb :'/decks/deck_show'
         else
@@ -70,20 +73,41 @@ class DecksController < ApplicationController
     end
 
     get '/decks/:slug/edit' do #edit action, displays edit form based on the slug in the URL
-        
-    end
-
-    patch '/decks/:slug' do #update action modifies existing deck based on the slug in the URL
-        
-    end
-
-    post '/decks/:slug' do #used to be /decks/:slug
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
-            erb :'/decks/deck_show'
+        else
+            @error = "Please sign in to edit deck"
+            redirect '/'
+        end
+    end
+
+    patch '/decks/:slug' do #update action modifies existing deck based on the slug in the URL
+        if Helpers.is_logged_in?(session)
+            @user = Helpers.current_user(session)
+            @deck = Deck.find_by_slug(params[:slug])
+            @cards = @deck.cards
+            # @card = Card.find_by(params[:id]) #do i need to specificy? inside or outside the block?
+            @cards.each do |card|
+                card.front = params[:front]
+                card.back = params[:back]
+                card.save
+            end
+            redirect '/decks/:slug'
+        else
+            @error = "Please sign in to edit deck"
+            redirect '/'
+        end
+    end
+
+    post '/decks' do #used to be /decks/:slug
+        if Helpers.is_logged_in?(session)
+            @user = Helpers.current_user(session)
+            @deck = Deck.find_by_slug(params[:slug])
+            erb :'/decks/add_cards'
         else
             @error = "Please sign in to view decks"
+            redirect '/'
         end
     end
 
@@ -91,9 +115,11 @@ class DecksController < ApplicationController
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
+
             erb :'/decks/play'
         else
             redirect '/'
+        end
     end
 
     delete '/decks/:slug' do #delete action, deletes one article based on the slug in the URL
@@ -105,11 +131,21 @@ class DecksController < ApplicationController
         else
             redirect '/'
         end
-
     end
 
-    get '/decks/:slug/add-cards' do
+    get '/decks/:slug/cards' do
         erb :add_cards
     end
+
+    # post '/decks/:slug/cards' do
+    #     if Helpers.is_logged_in?(session)
+    #         @user = Helpers.current_user(session)
+    #         @deck = Deck.find_by_slug(params[:slug])
+    #         @card = Card.create(front: => params[:front], back: => params[:back])
+    #         redirect "/decks/#{@deck.slug}"
+    #     else
+    #         redirect '/'
+    #     end
+    # end
 
 end

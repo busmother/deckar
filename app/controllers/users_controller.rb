@@ -26,7 +26,6 @@ class UsersController < ApplicationController
 
     post '/login' do
         @user = User.find_by(:username => params[:username]) #this doesn't find the user
-        # binding.pry
         if @user && @user.authenticate(params[:password])
             session[:id] = @user.id
             redirect '/decks'

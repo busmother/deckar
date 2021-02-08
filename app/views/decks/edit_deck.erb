@@ -1,12 +1,22 @@
-<form action = '/decks/<%=@deck.slug%>/edit' method = "POST">
+<form action = '/decks/<%=@deck.slug%>/edit' method = "post">
+<%@cards.each do |card|%>
+<label for="front">Front:</label>
+<input type="text" name="front" placeholder="<%=card.front%>">
+<label for="back">Back:</label>
+<input type="text" name="back" placeholder="<%=card.back%>">
+<br>
+<%end%>
+<input id="hidden" type="hidden" name="_method" value="PATCH">
+<button name="update" type="submit" value="Update cards">Update Cards</button>
+</form>
 
 <form action="/decks/<%=@deck.slug%>/edit" method="POST">
 <%@number_of_cards.times do |i|%>
 New Card <%=i+1%>
 <label for="front">Front:</label>
-<input type="text" name="front" placeholde="Question">
+<input type="text" name="front" placeholder="Front">
 <label for="back">Back:</label>
-<input type="text" name="back" placeholde="Answer">
+<input type="text" name="back" placeholder="Back">
 <br>
 <%end%>
 <button name="submit" type="submit" value="Add Cards">Add Cards</button>

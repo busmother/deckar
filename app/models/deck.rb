@@ -5,7 +5,7 @@ class Deck < ActiveRecord::Base
     has_many :cards
 
     def slug #could be combined with the user.rb slug methods
-        self.name.gsub(" ","-")
+        self.name.downcase.gsub(" ","-")
     end
 
     def self.find_by_slug(slug)#could be combined with the user.rb slug methods
