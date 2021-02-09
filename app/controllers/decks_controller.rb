@@ -72,6 +72,25 @@ class DecksController < ApplicationController
         end
     end
 
+    post '/decks/:slug/cards' do 
+        if Helpers.is_logged_in?(session)
+            @user = Helpers.current_user(session)
+            @deck = Deck.find_by_slug(params[:slug])
+            params[:front].each_with_index do |front, i|
+                front = params[:front][i]
+                back = params[:back][i]
+                card = Card.create(front: front,back: back, deck_id: @deck.id)
+                # @deck.cards << card
+                # binding.pry
+            end
+            @cards = @deck.cards
+            erb :'/decks/deck_show'
+        else
+            @error = "Please sign in to view decks"
+            redirect '/'
+        end
+    end
+
     get '/decks/:slug/edit' do #edit action, displays edit form based on the slug in the URL
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
@@ -96,17 +115,6 @@ class DecksController < ApplicationController
             redirect '/decks/:slug'
         else
             @error = "Please sign in to edit deck"
-            redirect '/'
-        end
-    end
-
-    post '/decks' do #used to be /decks/:slug
-        if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
-            @deck = Deck.find_by_slug(params[:slug])
-            erb :'/decks/add_cards'
-        else
-            @error = "Please sign in to view decks"
             redirect '/'
         end
     end
@@ -137,7 +145,19 @@ class DecksController < ApplicationController
         erb :add_cards
     end
 
-    # post '/decks/:slug/cards' do
+    post '/cards' do
+        if Helpers.is_logged_in?(session)
+            @user = Helpers.current_user(session)
+            @deck = Deck.find_by(name: params[:name])
+            @number_of_cards = params[:number]
+            # binding.pry
+            erb :'decks/add_cards'
+        else
+            redirect '/'
+        end
+    end
+
+    # post 'decks/:slug/cards' do
     #     if Helpers.is_logged_in?(session)
     #         @user = Helpers.current_user(session)
     #         @deck = Deck.find_by_slug(params[:slug])

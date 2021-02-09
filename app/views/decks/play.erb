@@ -1,1 +1,11 @@
 <h3> here's where you would play!!</h3>
+<h3><%=@deck.name%></h3>
+<br>
+<h4><%=@deck.cards.find_by_id(1).front%></h4>
+
+<form action = "/flip" method="GET">
+<button name="flip" type="submit" value="Flip"> Flip </button>
+</form>
+<form action = "/next" method="GET">
+<button name="next" type="submit" value="Next"> Next </button>
+</form>
