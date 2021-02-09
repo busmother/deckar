@@ -1,0 +1,5 @@
+<form action='/decks/<%=@deck.slug%>' method='post'>
+<input id="hidden" type="hidden" name="_method" value="patch">
+New deck name:
+<input type="text" name="name" placeholder=<%=@deck.name%>><br>
+<button type="submit" name="submit" id="submit">Update deck name</button>
