@@ -14,11 +14,9 @@ class DecksController < ApplicationController
         end
     end
 
-    get 'decks/new' do #new action, displays create decks form
+    get '/decks/new' do #new action, displays create decks form
         if Helpers.is_logged_in?(session)
-            @deck = Deck.new(name: params[:name])
-            @deck.save
-            erb :'cards/add_cards'
+            erb :'decks/new'
         else
             @error = "Please sign in to create decks"
             redirect '/'
@@ -31,7 +29,7 @@ class DecksController < ApplicationController
             @deck = Deck.create(name: params[:name], user_id: @user.id)
             @number_of_cards = params[:number].to_i
             # binding.pry
-            erb :'decks/add_cards'
+            erb :'cards/add_cards'
         else
             @error = "Please sign in to add cards"
             redirect '/'
@@ -41,8 +39,8 @@ class DecksController < ApplicationController
     get '/decks/:slug' do #show action, displays one deck based on the slug in the URL
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
-            @deck = @user.decks.find_by_slug(params[:slug])
-            binding.pry
+            @deck = Deck.find_by_slug(params[:slug])
+            # binding.pry
             @cards = @deck.cards 
             erb :'/decks/deck_show'
         else
@@ -64,21 +62,7 @@ class DecksController < ApplicationController
         end
     end
 
-    #you left off here!
-
-    get '/decks/:slug/cards/:id/edit' do
-        if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
-            @deck = @user.decks.find_by_slug(params[:slug])
-            @cards = @deck.cards
-
-        else
-            @error = "Please sign in to view deck"
-            redirect '/'
-        end
-    end
-
-    patch '/decks/:slug' do
+    patch '/decks/:slug' do #update action, modifies existing deck based on slug in URL
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             # binding.pry
@@ -88,59 +72,6 @@ class DecksController < ApplicationController
             redirect '/decks' #ideally this would go to '/decks/:slug'
         else
             @error = "Please sign in to view deck"
-            redirect '/'
-        end
-    end
-
-    ######
-
-    get '/cards' do
-        if Helpers.is_logged_in?(session)
-            erb :'decks/add_cards'
-        else
-            @error = "Please sign in to add cards"
-            redirect '/'
-        end
-    end
-
-    get '/new' do
-        if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
-            @decks = Deck.all
-            erb :'decks/new'
-        else
-            @error = "Please sign in to create decks"
-            redirect '/'
-        end
-    end
-
-
-
-    patch '/decks/:slug' do #update action modifies existing deck based on the slug in the URL
-        if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
-            @deck = Deck.find_by_slug(params[:slug])
-            @cards = @deck.cards
-            # @card = Card.find_by(params[:id]) #do i need to specificy? inside or outside the block?
-            @cards.each do |card|
-                card.front = params[:front]
-                card.back = params[:back]
-                card.save
-            end
-            redirect '/decks/:slug'
-        else
-            @error = "Please sign in to edit deck"
-            redirect '/'
-        end
-    end
-
-    get '/decks/:slug/play' do
-        if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
-            @deck = Deck.find_by_slug(params[:slug])
-
-            erb :'/decks/play'
-        else
             redirect '/'
         end
     end
@@ -156,29 +87,62 @@ class DecksController < ApplicationController
         end
     end
 
-    delete '/decks/:slug/cards/:id' do #delete action, deletes one card based on the id in the URL
-        if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
-            @deck = @user.decks.find_by_slug(params[:slug])
-            @card = @deck.cards.find_by_id(params[:id])
-            @card.delete
-            redirect '/decks'
-        else
-            redirect '/'
-        end
-    end
+    ######
 
-    post '/cards' do
-        if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
-            @deck = Deck.find_by(name: params[:name])
-            @number_of_cards = params[:number]
-            # binding.pry
-            erb :'decks/add_cards'
-        else
-            redirect '/'
-        end
-    end
+    # get '/cards' do
+    #     if Helpers.is_logged_in?(session)
+    #         erb :'decks/add_cards'
+    #     else
+    #         @error = "Please sign in to add cards"
+    #         redirect '/'
+    #     end
+    # end
+
+    # get '/new' do
+    #     if Helpers.is_logged_in?(session)
+    #         @user = Helpers.current_user(session)
+    #         @decks = Deck.all
+    #         erb :'decks/new'
+    #     else
+    #         @error = "Please sign in to create decks"
+    #         redirect '/'
+    #     end
+    # end
+
+    # get '/decks/:slug/play' do
+    #     if Helpers.is_logged_in?(session)
+    #         @user = Helpers.current_user(session)
+    #         @deck = Deck.find_by_slug(params[:slug])
+
+    #         erb :'/decks/play'
+    #     else
+    #         redirect '/'
+    #     end
+    # end
+
+    # delete '/decks/:slug/cards/:id' do #delete action, deletes one card based on the id in the URL
+    #     if Helpers.is_logged_in?(session)
+    #         @user = Helpers.current_user(session)
+    #         @deck = @user.decks.find_by_slug(params[:slug])
+    #         @card = @deck.cards.find_by_id(params[:id])
+    #         @card.delete
+    #         redirect '/decks'
+    #     else
+    #         redirect '/'
+    #     end
+    # end
+
+    # post '/cards' do
+    #     if Helpers.is_logged_in?(session)
+    #         @user = Helpers.current_user(session)
+    #         @deck = Deck.find_by(name: params[:name])
+    #         @number_of_cards = params[:number]
+    #         # binding.pry
+    #         erb :'decks/add_cards'
+    #     else
+    #         redirect '/'
+    #     end
+    # end
 
     # post 'decks/:slug/cards' do
     #     if Helpers.is_logged_in?(session)

@@ -1,0 +1,17 @@
+<h4><%=@deck.name%></h4>
+<div card>
+<%@cards.each do |card|%>
+<p><%=card.front%> <%=card.back%><p>
+<%end%>
+
+<form action='/decks/<%@deck.slug%>/cards/:id' method="get">
+<button type="submit">Flip</button>
+</form>
+### Only if you're the correct user###
+<form action='/decks/<%@deck.slug%>/play' method="get">
+<button type="submit">Edit</button>
+</form>
+<form action='/decks/<%@deck.slug%>/play' method="get">
+<button type="submit">Delete</button>
+</form>
+</div>

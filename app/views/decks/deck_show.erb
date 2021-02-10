@@ -1,8 +1,6 @@
 <h3><%=@deck.name%></h3>
-<p>Congrats! you made it to a specific deck</p>
-<p>More specifically, you made it to <em><%=@deck.name%></em> </p>
 
-<form action="/decks/<%=@deck.slug%>/play" method="GET">
+<form action="/decks/<%=@deck.slug%>/cards/:id" method="GET">
 <button type="submit">Test your knowledge</button>
 </form>
 

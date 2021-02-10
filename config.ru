@@ -7,4 +7,5 @@ end
 use Rack::MethodOverride
 use DecksController
 use UsersController
+use CardsController
 run ApplicationController

@@ -1,17 +1,15 @@
+<h4>Signed in as user <em><%=@user.username%></em></h4>
 <h2>Your Decks:</h2>
 <%@user.decks.each do |deck|%>
 <p><a href="/decks/<%=deck.slug%>"> <%=deck.name%></a></p>
 <%end%>
-<form action='/new' method="GET">
+<form action='/decks/new' method="GET">
 <button value='submit'>Create New Deck</button>
 </form>
 
 <h2>Other Decks:</h2>
 <%@decks.each do |deck|%>
-<%# you could make this so that the user is not the 
-current user and these are "other decks" %>
-<%if deck.user_id == @user.id%>
-<p><a href="decks/<%=deck.user%>/<%=deck.slug%>"> <%=deck.name%></a> by <%=deck.user.username%></p>
+<%if deck.user_id != @user.id%>
+<p><a href="decks/<%=deck.slug%>"> <%=deck.name%> </a> by user <%=deck.user.username%></p>
 <%end%>
 <%end%>
-<a href="/logout">Logout</a>
