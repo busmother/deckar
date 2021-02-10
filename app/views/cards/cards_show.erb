@@ -1,16 +1,26 @@
-<h4><%=@deck.name%></h4>
+<h4>You're playing the deck "<%=@deck.name%>"</h4>
 <div card>
-<%@cards.each do |card|%>
-<p><%=card.front%> <%=card.back%><p>
-<%end%>
 
-<form action='/decks/<%@deck.slug%>/cards/:id' method="get">
+<br>
+<%=@card.front%>
+<br><br>
+
+
+<form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>/back' method="get">
 <button type="submit">Flip</button>
 </form>
-### Only if you're the correct user###
+<br>
+<form action='/decks/<%=@deck.slug%>/cards/<%=@card.id+1%>' method="get">
+<button type="submit">Next</button>
+</form>
+<br>
+
+### Only if you're the correct user ###
+<br><br>
 <form action='/decks/<%@deck.slug%>/play' method="get">
 <button type="submit">Edit</button>
 </form>
+<br>
 <form action='/decks/<%@deck.slug%>/play' method="get">
 <button type="submit">Delete</button>
 </form>

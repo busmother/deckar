@@ -1,0 +1,37 @@
+<h4>You're playing the deck "<%=@deck.name%>"</h4>
+<div card>
+
+<br>
+<%=@card.back%>
+<br><br>
+
+</div>
+
+<form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>' method="get">
+<button type="submit">Flip</button>
+</form>
+<br>
+
+<%if @card.id != @ids.max%>
+    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id+1%>/back' method="get">
+    <button type="submit">Next</button>
+    </form>
+<%end%>
+
+<%if @card.id != @ids.min%>
+    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id-1%>/back' method="get">
+    <button type="submit">Back</button>
+    </form>
+<%end%>
+
+<%if Helpers.current_user(session).id == @deck.user_id%>
+    <br><br>
+    <form action='/decks/<%@deck.slug%>/play' method="get">
+    <button type="submit">Edit</button>
+    </form>
+
+    <br>
+    <form action='/decks/<%@deck.slug%>/play' method="get">
+    <button type="submit">Delete</button>
+    </form>
+<%end%>

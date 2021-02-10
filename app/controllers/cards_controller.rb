@@ -34,7 +34,31 @@ class CardsController < ApplicationController
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
             @cards = @deck.cards
+            @ids = []
+            @cards.each do |card|
+                @ids << card.id
+            end
+            @card = @cards.find_by_id(params[:id])
+            # binding.pry
             erb :'cards/cards_show'
+        else
+            @error = "Please sign in to play"
+            redirect '/'
+        end
+    end
+
+    get '/decks/:slug/cards/:id/back' do #show action, displays on card based on id in URL
+        if Helpers.is_logged_in?(session)
+            @user = Helpers.current_user(session)
+            @deck = Deck.find_by_slug(params[:slug])
+            @cards = @deck.cards
+            @ids = []
+            @cards.each do |card|
+                @ids << card.id
+            end
+            @card = @cards.find_by_id(params[:id])
+            # binding.pry
+            erb :'cards/cards_show_back'
         else
             @error = "Please sign in to play"
             redirect '/'

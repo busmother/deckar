@@ -41,7 +41,12 @@ class DecksController < ApplicationController
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
             # binding.pry
-            @cards = @deck.cards 
+            @cards = @deck.cards
+            @ids = []
+            @cards.each do |card|
+                @ids << card.id
+            end
+            # binding.pry
             erb :'/decks/deck_show'
         else
             @error = "Please sign in to view decks"

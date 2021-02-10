@@ -1,6 +1,6 @@
 <h3><%=@deck.name%></h3>
 
-<form action="/decks/<%=@deck.slug%>/cards/:id" method="GET">
+<form action="/decks/<%=@deck.slug%>/cards/<%=@cards.find_by_id(@ids.min).id%>" method="GET">
 <button type="submit">Test your knowledge</button>
 </form>
 
