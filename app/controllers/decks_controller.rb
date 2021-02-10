@@ -41,7 +41,7 @@ class DecksController < ApplicationController
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
             # binding.pry
-            @cards = @deck.cards
+            @cards = @deck.cards #creating the @ids array can be refactored
             @ids = []
             @cards.each do |card|
                 @ids << card.id
@@ -120,18 +120,6 @@ class DecksController < ApplicationController
     #         @deck = Deck.find_by_slug(params[:slug])
 
     #         erb :'/decks/play'
-    #     else
-    #         redirect '/'
-    #     end
-    # end
-
-    # delete '/decks/:slug/cards/:id' do #delete action, deletes one card based on the id in the URL
-    #     if Helpers.is_logged_in?(session)
-    #         @user = Helpers.current_user(session)
-    #         @deck = @user.decks.find_by_slug(params[:slug])
-    #         @card = @deck.cards.find_by_id(params[:id])
-    #         @card.delete
-    #         redirect '/decks'
     #     else
     #         redirect '/'
     #     end

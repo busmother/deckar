@@ -5,23 +5,36 @@
 <%=@card.front%>
 <br><br>
 
+</div>
 
 <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>/back' method="get">
 <button type="submit">Flip</button>
 </form>
 <br>
-<form action='/decks/<%=@deck.slug%>/cards/<%=@card.id+1%>' method="get">
-<button type="submit">Next</button>
-</form>
-<br>
+
+<%if @card.id != @ids.max%>
+    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id+1%>' method="get">
+    <button type="submit">Next</button>
+    </form>
+<%end%>
+
+<%if @card.id != @ids.min%>
+    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id-1%>/back' method="get">
+    <button type="submit">Back</button>
+    </form>
+<%end%>
 
 ### Only if you're the correct user ###
-<br><br>
-<form action='/decks/<%@deck.slug%>/play' method="get">
-<button type="submit">Edit</button>
-</form>
-<br>
-<form action='/decks/<%@deck.slug%>/play' method="get">
-<button type="submit">Delete</button>
-</form>
-</div>
+<%if Helpers.current_user(session).id == @deck.user_id%>
+    <br><br>
+    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>/edit' method="get">
+    <button type="submit" value="edit">Edit</button>
+    </form>
+    <br>
+
+    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>' method="post">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <button type="submit" value="delete">Delete Card</button>
+    </form>
+    </div>
+<%end%>

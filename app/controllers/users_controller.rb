@@ -7,10 +7,12 @@ class UsersController < ApplicationController
     end
 
     post '/signup' do
+        # binding.pry
         if Helpers.is_logged_in?(session)
             redirect '/decks'
         else
             @user = User.new(:username => params[:username], :password => params[:password], :email => params[:email])
+            # binding.pry
             if @user.username !="" && @user.username !=nil && @user.password !="" && @user.password != nil && @user.email !="" && @user.email != nil
                 #theres another way to write ^this using params.has_value?
                 @user.save #save the user to create a primary key / id

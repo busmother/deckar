@@ -26,12 +26,14 @@
 
 <%if Helpers.current_user(session).id == @deck.user_id%>
     <br><br>
-    <form action='/decks/<%@deck.slug%>/play' method="get">
-    <button type="submit">Edit</button>
+    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>/edit' method="get">
+    <button type="submit" value="edit">Edit</button>
     </form>
-
     <br>
-    <form action='/decks/<%@deck.slug%>/play' method="get">
-    <button type="submit">Delete</button>
+
+    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>' method="post">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <button type="submit" value="delete">Delete Card</button>
     </form>
+    </div>
 <%end%>
