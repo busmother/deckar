@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
     validates :email, uniqueness: true
     validates :username, uniqueness: true
+#create more validations
 
     def slug #could be combined with the deck.rb slug methods
         self.username.gsub(" ","-")
@@ -16,9 +17,5 @@ class User < ActiveRecord::Base
         name = slug.gsub("-"," ")
         User.find_by(username :name)
     end
-
-    # def self.name
-    #     @username
-    # end
 
 end

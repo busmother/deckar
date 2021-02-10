@@ -13,7 +13,7 @@
 <br>
 
 <%if @card.id != @ids.max%>
-    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id+1%>' method="get">
+    <form action='/decks/<%=@deck.slug%>/cards/<%=@deck.cards[(@deck.cards.find_index(@card)+1)].id%>' method="get">
     <button type="submit">Next</button>
     </form>
 <%end%>

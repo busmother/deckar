@@ -4,7 +4,13 @@ class Deck < ActiveRecord::Base
     belongs_to :user
     has_many :cards
 
+    validates :name, presence: true
+    validates :name, length: {minimum: 1}
+
+
+
     def slug #could be combined with the user.rb slug methods
+
         self.name.strip.downcase.gsub(" ","-")
     end
 

@@ -15,6 +15,7 @@ class CardsController < ApplicationController
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
+            # binding.pry
             params[:front].each_with_index do |front, i|
                 front = params[:front][i]
                 back = params[:back][i]
@@ -22,10 +23,11 @@ class CardsController < ApplicationController
             end
             # binding.pry
             @cards = @deck.cards #creating the @ids array can be refactored
-            @ids = []
-            @cards.each do |card|
-                @ids << card.id
-            end
+            # @ids = [] #vchange this to an array of hashes with the key as the ID and the position as a value
+            # @cards.each_with_index do |card, i|
+            #     @ids << 
+            # end
+            # index = 
             # binding.pry
             erb :'/decks/deck_show'
         else

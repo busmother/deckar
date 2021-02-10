@@ -3,3 +3,10 @@
 New deck name:
 <input type="text" name="name" placeholder=<%=@deck.name%>><br>
 <button type="submit" name="submit" id="submit">Update deck name</button>
+</form>
+<br><br>
+<form action='/decks/<%=@deck.slug%>/more-cards' method='get'>
+Number of cards:
+<input type="number" name="number">
+<button type="submit" name="submit" id="submit">Start adding cards</button>
+</form>
