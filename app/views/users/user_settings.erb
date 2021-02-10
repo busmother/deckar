@@ -1,0 +1,11 @@
+<h3>Your info:</h3>
+<h5>Email:</h5><%=@user.email%><br>
+<h5>Username:</h5><%=@user.username%><br><br>
+<form action = "/users/<%=@user.slug%>/edit" method="get">
+<button type="submit" value="edit">Edit Info</button>
+</form>
+<br><br>
+<form action="users/<%=@user.slug%>" method="post">
+<input id="hidden" type="hidden" name="_method" value="delete">
+<button type="submit" value="delete">Delete your account</button>
+</form>

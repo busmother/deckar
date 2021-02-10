@@ -1,0 +1,9 @@
+<form action='/users/<%=@user.slug%>' method='post'>
+<input id="hidden" type="hidden" name="_method" value="patch">
+New email:
+<input type="text" name="email" value="<%=@user.email%>"><br>
+<br><br>
+New username:
+<input type="text" name="username" value="<%=@user.username%>"><br>
+<button type="submit" name="submit" id="submit">Update info</button>
+</form>

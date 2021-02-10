@@ -7,12 +7,10 @@ class UsersController < ApplicationController
     end
 
     post '/signup' do
-        # binding.pry
-        if Helpers.is_logged_in?(session) #there might be an issue here
+        if Helpers.is_logged_in?(session)
             redirect '/decks'
         else
             @user = User.new(:username => params[:username], :password => params[:password], :email => params[:email])
-            # binding.pry
             if @user.username !="" && @user.username !=nil && @user.password !="" && @user.password != nil && @user.email !="" && @user.email != nil
                 #theres another way to write ^this using params.has_value?
                 @user.save #save the user to create a primary key / id
@@ -55,4 +53,61 @@ class UsersController < ApplicationController
         end
     end
 
+    get '/users' do
+        if Helpers.is_logged_in?(session)
+            @user = Helpers.current_user(session)
+            erb :'users/user_settings'
+        else
+            redirect '/'
+        end
+    end
+
+    get '/users/:slug/edit' do
+        if Helpers.is_logged_in?(session)
+            if params[:slug] == Helpers.current_user(session).slug
+                @user = Helpers.current_user(session)
+                erb :'/users/edit'
+            else
+                @error = "You have to be logged in as this user to access this information."
+                redirect '/decks'
+            end
+        else
+            @error = "You have to be logged in to access this information."
+            redirect '/'
+        end
+    end
+
+    patch '/users/:slug' do
+        if Helpers.is_logged_in?(session)
+            if params[:slug] == Helpers.current_user(session).slug
+                @user = Helpers.current_user(session)
+                @user.email = params[:email]
+                @user.username = params[:username]
+                @user.save
+                redirect '/users'
+            else
+                @error = "You have to be logged in as this user to access this information."
+                redirect '/decks'
+            end
+        else
+            @error = "You have to be logged in to access this information."
+            redirect '/'
+        end
+    end
+
+    delete '/users/:slug' do 
+        if Helpers.is_logged_in?(session)
+            if params[:slug] == Helpers.current_user(session).slug
+                @user = Helpers.current_user(session)
+                @user.delete
+                redirect '/'
+            else
+                @error = "You have to be logged in as this user to access this information."
+                redirect '/decks'
+            end
+        else
+            @error = "You have to be logged in to access this information."
+            redirect '/'
+        end
+    end
 end
