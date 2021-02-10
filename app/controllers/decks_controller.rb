@@ -102,6 +102,9 @@ class DecksController < ApplicationController
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
+            @deck.cards.each do |card|
+                card.delete
+            end
             @deck.delete
             redirect '/decks'
         else

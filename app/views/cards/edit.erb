@@ -1,7 +1,7 @@
 <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>' method = "patch">
 <input id="hidden" type="hidden" name="_method" value="patch">
 New front:
-<input type="text" name="front" placeholder=<%=@card.front%>>
+<input type="text" name="front" value=<%=@card.front%>>
 New back:
-<input type="text" name="back" placeholder=<%=@card.back%>>
+<input type="text" name="back" value=<%=@card.back%>>
 <button type="submit" name="submit" id="submit">Update card</button>

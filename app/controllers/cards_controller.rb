@@ -41,7 +41,7 @@ class CardsController < ApplicationController
                 @ids << card.id
             end
             @card = @cards.find_by_id(params[:id])
-            erb :'cards/cards_show'
+            erb :'cards/cards_show_front'
         else
             @error = "Please sign in to play"
             redirect '/'

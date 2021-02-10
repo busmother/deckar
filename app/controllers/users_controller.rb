@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     end
 
     post '/login' do
+        # binding.pry
         @user = User.find_by(:username => params[:username]) #this doesn't find the user
         if @user && @user.authenticate(params[:password])
             session[:id] = @user.id
@@ -99,6 +100,12 @@ class UsersController < ApplicationController
         if Helpers.is_logged_in?(session)
             if params[:slug] == Helpers.current_user(session).slug
                 @user = Helpers.current_user(session)
+                @user.decks.each do |deck|
+                    deck.cards.each do |card|
+                        card.delete
+                    end
+                    deck.delete
+                end
                 @user.delete
                 redirect '/'
             else
