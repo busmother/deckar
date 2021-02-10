@@ -15,20 +15,15 @@ class CardsController < ApplicationController
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
-            # binding.pry
             params[:front].each_with_index do |front, i|
                 front = params[:front][i]
                 back = params[:back][i]
                 card = Card.create(front: front, back: back, deck_id: @deck.id)
             end
-            # binding.pry
-            @cards = @deck.cards #creating the @ids array can be refactored
-            # @ids = [] #vchange this to an array of hashes with the key as the ID and the position as a value
-            # @cards.each_with_index do |card, i|
-            #     @ids << 
-            # end
-            # index = 
-            # binding.pry
+            @ids = [] 
+            @deck.cards.each do |card|
+                @ids << card.id
+            end
             erb :'/decks/deck_show'
         else
             @error = "Please sign in to view decks"
@@ -46,7 +41,6 @@ class CardsController < ApplicationController
                 @ids << card.id
             end
             @card = @cards.find_by_id(params[:id])
-            # binding.pry
             erb :'cards/cards_show'
         else
             @error = "Please sign in to play"
@@ -64,7 +58,6 @@ class CardsController < ApplicationController
                 @ids << card.id
             end
             @card = @cards.find_by_id(params[:id])
-            # binding.pry
             erb :'cards/cards_show_back'
         else
             @error = "Please sign in to play"

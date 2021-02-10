@@ -41,17 +41,6 @@ class DecksController < ApplicationController
         end
     end
 
-    # get '/decks/:slug/more-cards' do
-    #     if Helpers.is_logged_in?(session)
-    #         @user = Helpers.current_user(session)
-    #         @deck = @user.decks.find_by_slug(params[:slug])
-    #         erb :'decks/decks_more_cards'
-    #     else
-    #         @error = "Please sign in to add cards"
-    #         redirect '/'
-    #     end
-    # end
-
     get '/decks/:slug/more-cards' do
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
@@ -63,28 +52,6 @@ class DecksController < ApplicationController
             redirect '/'
         end
     end
-
-    # post '/decks/:slug/more-cards' do
-    #     # binding.pry
-    #     if Helpers.is_logged_in?(session)
-    #         @user = Helpers.current_user(session)
-    #         @deck = @user.decks.find_by_slug(params[:slug])
-    #         params[:front].each_with_index do |front, i|
-    #             front = params[:front][i]
-    #             back = params[:back][i]
-    #             card = Card.create(front: front, back: back, deck_id: @deck.id)
-    #         end
-    #         @cards = @deck.cards #creating the @ids array can be refactored
-    #         @ids = []
-    #         @cards.each do |card|
-    #             @ids << card.id
-    #         end
-    #         erb :'/decks/deck_show'
-    #     else
-    #         @error = "Please sign in to add cards"
-    #         redirect '/'
-    #     end
-    # end
 
     get '/decks/:slug' do #show action, displays one deck based on the slug in the URL
         if Helpers.is_logged_in?(session)
