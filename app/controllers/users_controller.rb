@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
     post '/signup' do
         # binding.pry
-        if Helpers.is_logged_in?(session)
+        if Helpers.is_logged_in?(session) #there might be an issue here
             redirect '/decks'
         else
             @user = User.new(:username => params[:username], :password => params[:password], :email => params[:email])

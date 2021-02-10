@@ -24,7 +24,6 @@
     </form>
 <%end%>
 
-### Only if you're the correct user ###
 <%if Helpers.current_user(session).id == @deck.user_id%>
     <br><br>
     <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>/edit' method="get">
