@@ -1,7 +1,7 @@
 <h4>Signed in as user <em><%=@user.username%></em></h4>
 <h2>Your Decks:</h2>
 <%@user.decks.each do |deck|%>
-<p><a href="/decks/<%=deck.slug%>"> <%=deck.name%></a></p>
+<p><a href="/decks/<%=deck.slug%>"> <%=deck.name%></a> (<%=deck.cards.count%> cards)</p>
 <%end%>
 <form action='/decks/new' method="GET">
 <button value='submit'>Create New Deck</button>
@@ -10,6 +10,6 @@
 <h2>Other Decks:</h2>
 <%@decks.each do |deck|%>
 <%if deck.user_id != @user.id%>
-<p><a href="decks/<%=deck.slug%>"> <%=deck.name%> </a> by user <%=deck.user.username%></p>
+<p><a href="decks/<%=deck.slug%>"> <%=deck.name%> </a> by user <%=deck.user.username%> (<%=deck.cards.count%> cards)</p>
 <%end%>
 <%end%>

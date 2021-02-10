@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     end
 
     post '/signup' do
-        # binding.pry
+        binding.pry
         if Helpers.is_logged_in?(session) #there might be an issue here
             redirect '/decks'
         else
@@ -36,9 +36,7 @@ class UsersController < ApplicationController
     end
 
     get '/logout' do
-        if Helpers.is_logged_in?(session)
-            session.clear
-        end
+        session.clear
         redirect '/'
     end
 

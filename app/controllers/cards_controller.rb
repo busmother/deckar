@@ -76,7 +76,8 @@ class CardsController < ApplicationController
             if @user.decks.find_by_slug(params[:slug]) != nil
                 @deck = @user.decks.find_by_slug(params[:slug])
                 @cards = @deck.cards
-                #goes to an edit view
+                @card = @cards.find_by_id(params[:id])
+                erb :'/cards/edit'
             else
                 @error = "Please sign in to edit deck"
                 redirect '/decks/:slug/cards/:id' #not sure if this works
@@ -88,7 +89,20 @@ class CardsController < ApplicationController
     end
 
     patch '/decks/:slug/cards/:id' do #update action, modifies existing card based on slug in URL
-        
+        if Helpers.is_logged_in?(session)
+            @user = Helpers.current_user(session)
+            @deck = @user.decks.find_by_slug(params[:slug])
+            @cards = @deck.cards
+            @card = @cards.find_by_id(params[:id])
+            binding.pry
+            @card.front = params[:front]
+            @card.back = params[:back]
+            @card.save
+            erb :'/decks/deck_show'
+        else
+            @error = "Please sign in to edit card"
+            redirect '/'
+        end
     end
 
     delete '/decks/:slug/cards/:id' do #delete action, deletes one card based on the id in the URL

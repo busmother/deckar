@@ -7,10 +7,15 @@
 <%if @deck.user_id == Helpers.current_user(session).id%>
 <p><em>Update your deck:</em><p>
 
-<form action="decks/<%=@deck.slug%>/cards" method="POST">
+<form action = "/decks" method="POST">
 <p>Add<input type="number" name="number">more cards
-<button type="submit">Add</button></p>
+<button type="submit" name="submit" id="submit">Add</button></p>
 </form>
+
+<form action = "/decks/more-cards" method="POST">
+<button type="submit" name="submit" id="submit">Add more cards</button></p>
+</form>
+
 
 <form action="/decks/<%=@deck.slug%>/edit" method="GET">
 <button type="submit" value="edit">Edit Deck Name</button>
