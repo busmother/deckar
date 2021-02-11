@@ -3,8 +3,8 @@
 <%@user.decks.each do |deck|%>
 <p><a href="/decks/<%=deck.slug%>"> <%=deck.name%></a> (<%=deck.cards.count%> cards)</p>
 <%end%>
-<form action='/decks/new' method="GET">
-<button value='submit'>Create New Deck</button>
+<form action="/decks/new" method="GET">
+<button value="submit">Create New Deck</button>
 </form>
 
 <h2>Other Decks:</h2>

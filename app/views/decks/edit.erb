@@ -1,11 +1,11 @@
-<form action='/decks/<%=@deck.slug%>' method='post'>
-<input id="hidden" type="hidden" name="_method" value="patch">
+<form action="/decks/<%=@deck.slug%>" method="POST">
+<input id="hidden" type="hidden" name="_method" value="PATCH">
 New deck name:
 <input type="text" name="name" value=<%=@deck.name%>><br>
 <button type="submit" name="submit" id="submit">Update deck name</button>
 </form>
 <br><br>
-<form action='/decks/<%=@deck.slug%>/more-cards' method='get'>
+<form action="/decks/<%=@deck.slug%>/more-cards" method="GET">
 Number of cards:
 <input type="number" name="number">
 <button type="submit" name="submit" id="submit">Start adding cards</button>
