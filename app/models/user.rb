@@ -12,11 +12,11 @@ class User < ActiveRecord::Base
     validates :password, presence: true
     validates :password, length: {minimum: 1}
 
-    def slug #could be combined with the deck.rb slug methods
+    def slug
         self.username.gsub(" ","-")
     end
 
-    def self.find_by_slug(slug) #could be combined with the deck.rb slug methods
+    def self.find_by_slug(slug)
         name = slug.gsub("-"," ")
         User.find_by(username :name)
     end

@@ -1,14 +1,21 @@
-require 'pry'
-
 class CardsController < ApplicationController
 
     get '/decks/:slug/cards' do #new action, displays create cards form
-        erb :'/decks/deck_show'
+        if Helpers.is_logged_in?(session)
+            erb :'/decks/deck_show'
+        else
+            @error = "Please sign in to add cards"
+            redirect '/'
+        end
     end
 
-    get '/decks/:slug/cards/new' do #refactor this, not RESTful, 
-        #this route should be an index action, index page to display all cards
-        erb :'/cards/add_cards'
+    get '/decks/:slug/cards/new' do #new action, displays create cards front and back form
+        if Helpers.is_logged_in?(session)
+            erb :'/cards/add_cards'
+        else
+            @error = "please sign in to add cards"
+            redirect '/'
+        end
     end
 
     post '/decks/:slug/cards' do #create action, creates cards
@@ -31,7 +38,7 @@ class CardsController < ApplicationController
         end
     end
 
-    get '/decks/:slug/cards/:id' do #show action, displays on card based on id in URL
+    get '/decks/:slug/cards/:id' do #show action, displays one card based on id in URL
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
@@ -48,7 +55,7 @@ class CardsController < ApplicationController
         end
     end
 
-    get '/decks/:slug/cards/:id/back' do #show action, displays on card based on id in URL
+    get '/decks/:slug/cards/:id/back' do #show action, displays one card based on id in URL
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])

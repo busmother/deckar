@@ -17,6 +17,7 @@ class UsersController < ApplicationController
                 session[:id] = @user.id #now that we have access to the id, we can assign it to the session hash
                 redirect "/decks"
             else
+                # flash[:errors] = "Account creation failure - make sure you provide an email, username, and password."
                 redirect '/'
             end
         end

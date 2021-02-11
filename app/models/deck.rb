@@ -7,12 +7,12 @@ class Deck < ActiveRecord::Base
 
 
 
-    def slug #could be combined with the user.rb slug methods
+    def slug
 
         self.name.strip.downcase.gsub(" ","-")
     end
 
-    def self.find_by_slug(slug)#could be combined with the user.rb slug methods
+    def self.find_by_slug(slug)
         Deck.all.find {|deck| deck.slug == slug}
     end
 end
