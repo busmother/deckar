@@ -29,7 +29,7 @@ class CardsController < ApplicationController
                 back = params[:back][i]
                 card = Card.create(front: front, back: back, deck_id: @deck.id)
             end
-            @ids = [] 
+            @ids = [] #refactor the @ids array code so I can call it as a method
             @deck.cards.each do |card|
                 @ids << card.id
             end
@@ -45,7 +45,7 @@ class CardsController < ApplicationController
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
             @cards = @deck.cards
-            @ids = []
+            @ids = [] #refactor the @ids array code so I can call it as a method
             @cards.each do |card|
                 @ids << card.id
             end
@@ -62,12 +62,12 @@ class CardsController < ApplicationController
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
             @cards = @deck.cards
-            @ids = []
+            @ids = [] #refactor the @ids array code so I can call it as a method
             @cards.each do |card|
                 @ids << card.id
             end
             @card = @cards.find_by_id(params[:id])
-            erb :'cards/cards_show_back'
+            erb :'cards/cards_show_back' #this is the only difference between this route and the one above, can I refactor?
         else
             @error = "Please sign in to play"
             redirect '/'
@@ -84,7 +84,7 @@ class CardsController < ApplicationController
                 erb :'/cards/edit'
             else
                 @error = "Please sign in to edit deck"
-                redirect '/decks/:slug/cards/:id' #not sure if this works
+                redirect "/decks/#{@deck.slug}/cards/#{@card.id}"
             end
             else
             @error = "Please sign in to view deck"
@@ -98,11 +98,10 @@ class CardsController < ApplicationController
             @deck = @user.decks.find_by_slug(params[:slug])
             @cards = @deck.cards
             @card = @cards.find_by_id(params[:id])
-            # binding.pry
             @card.front = params[:front]
             @card.back = params[:back]
             @card.save
-            @ids = []
+            @ids = [] #refactor the @ids array code so I can call it as a method
             @cards.each do |card|
                 @ids << card.id
             end
@@ -124,9 +123,9 @@ class CardsController < ApplicationController
             @cards.each do |card|
                 @ids << card.id
             end
-            # redirect "/decks/#{@deck.slug}/cards"
             erb :'decks/deck_show'
         else
+            @error = "Please sign in to modify your deck"
             redirect '/'
         end
     end

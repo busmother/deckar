@@ -3,10 +3,9 @@
 class DecksController < ApplicationController
 
     get '/decks' do #index action, index page to display all decks
-        if Helpers.is_logged_in?(session) #looks like session isn't coming through
+        if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @decks = Deck.all
-            # binding.pry
             erb :'decks/decks_all'
         else
             @error = "Please sign in to view decks"
@@ -57,13 +56,11 @@ class DecksController < ApplicationController
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
-            # binding.pry
-            @cards = @deck.cards #creating the @ids array can be refactored
-            @ids = []
+            @cards = @deck.cards
+            @ids = [] #refactor the @ids array code so I can call it as a method
             @cards.each do |card|
                 @ids << card.id
             end
-            # binding.pry
             erb :'/decks/deck_show'
         else
             @error = "Please sign in to view decks"
@@ -75,7 +72,6 @@ class DecksController < ApplicationController
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             @deck = @user.decks.find_by_slug(params[:slug])
-            # binding.pry
             @cards = @deck.cards
             erb :'/decks/edit'
         else
@@ -87,11 +83,10 @@ class DecksController < ApplicationController
     patch '/decks/:slug' do #update action, modifies existing deck based on slug in URL
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
-            # binding.pry
             @deck = @user.decks.find_by_slug(params[:slug])
             @deck.name = params[:name]
             @deck.save
-            redirect '/decks' #ideally this would go to '/decks/:slug'
+            redirect "/decks/#{@deck.slug}"
         else
             @error = "Please sign in to view deck"
             redirect '/'
