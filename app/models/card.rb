@@ -1,5 +1,3 @@
-require 'pry'
-
 class Card < ActiveRecord::Base
     belongs_to :deck
     has_one :user, through: :deck
@@ -9,5 +7,4 @@ class Card < ActiveRecord::Base
     validates :back, presence: true
     validates :back, length: {minimum: 1}
 
-    
 end

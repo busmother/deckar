@@ -5,10 +5,7 @@ class Deck < ActiveRecord::Base
     validates :name, presence: true
     validates :name, length: {minimum: 1}
 
-
-
     def slug
-
         self.name.strip.downcase.gsub(" ","-")
     end
 

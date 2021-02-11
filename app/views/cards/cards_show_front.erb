@@ -7,31 +7,31 @@
 
 </div>
 
-<form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>/back' method="get">
+<form action="/decks/<%=@deck.slug%>/cards/<%=@card.id%>/back" method="GET">
 <button type="submit">Flip</button>
 </form>
 <br>
 
 <%if @card.id != @ids.max%>
-    <form action='/decks/<%=@deck.slug%>/cards/<%=@deck.cards[(@deck.cards.find_index(@card)+1)].id%>' method="get">
+    <form action="/decks/<%=@deck.slug%>/cards/<%=@deck.cards[(@deck.cards.find_index(@card)+1)].id%>" method="GET">
     <button type="submit">Next</button>
     </form>
 <%end%>
 
 <%if @card.id != @ids.min%>
-    <form action='/decks/<%=@deck.slug%>/cards/<%=@deck.cards[(@deck.cards.find_index(@card)-1)].id%>' method="get">
+    <form action="/decks/<%=@deck.slug%>/cards/<%=@deck.cards[(@deck.cards.find_index(@card)-1)].id%>" method="GET">
     <button type="submit">Back</button>
     </form>
 <%end%>
 
 <%if Helpers.current_user(session).id == @deck.user_id%>
     <br><br>
-    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>/edit' method="get">
+    <form action="/decks/<%=@deck.slug%>/cards/<%=@card.id%>/edit" method="GET">
     <button type="submit" value="edit">Edit Card</button>
     </form>
     <br>
 
-    <form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>' method="post">
+    <form action="/decks/<%=@deck.slug%>/cards/<%=@card.id%>" method="POST">
     <input id="hidden" type="hidden" name="_method" value="delete">
     <button type="submit" value="delete">Delete Card</button>
     </form>
