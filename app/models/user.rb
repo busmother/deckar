@@ -1,13 +1,16 @@
-require 'pry'
-
 class User < ActiveRecord::Base
     has_secure_password
     has_many :decks
     has_many :cards, through: :decks
 
+    validates :email, presence: true
+    validates :email, length: {minimum: 1}
     validates :email, uniqueness: true
+    validates :username, presence: true
+    validates :username, length: {minimum: 1}
     validates :username, uniqueness: true
-#create more validations
+    validates :password, presence: true
+    validates :password, length: {minimum: 1}
 
     def slug #could be combined with the deck.rb slug methods
         self.username.gsub(" ","-")

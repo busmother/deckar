@@ -10,11 +10,12 @@ gem 'thin'
 gem 'shotgun'
 gem 'pry'
 gem 'bcrypt'
-gem "tux"
+gem 'activesupport'
 
 group :test do
   gem 'rspec'
   gem 'capybara'
   gem 'rack-test'
   gem 'database_cleaner'
+  gem 'tux'
 end

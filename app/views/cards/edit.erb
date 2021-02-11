@@ -1,4 +1,4 @@
-<form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>' method = "patch">
+<form action='/decks/<%=@deck.slug%>/cards/<%=@card.id%>' method = "post">
 <input id="hidden" type="hidden" name="_method" value="patch">
 New front:
 <input type="text" name="front" value=<%=@card.front%>>

@@ -89,11 +89,15 @@ class CardsController < ApplicationController
             @deck = @user.decks.find_by_slug(params[:slug])
             @cards = @deck.cards
             @card = @cards.find_by_id(params[:id])
-            binding.pry
+            # binding.pry
             @card.front = params[:front]
             @card.back = params[:back]
             @card.save
-            erb :'/decks/deck_show'
+            @ids = []
+            @cards.each do |card|
+                @ids << card.id
+            end
+            redirect "/decks/#{@deck.slug}/cards/#{@card.id}"
         else
             @error = "Please sign in to edit card"
             redirect '/'
