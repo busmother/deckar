@@ -1,3 +1,5 @@
+# require 'rack-flash'
+
 class CardsController < ApplicationController
 
     get '/decks/:slug/cards' do #new action, displays create cards form

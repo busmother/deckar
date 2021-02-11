@@ -1,5 +1,5 @@
-<form action='/users/<%=@user.slug%>' method='post'>
-<input id="hidden" type="hidden" name="_method" value="patch">
+<form action="/users/<%=@user.slug%>" method="POST">
+<input id="hidden" type="hidden" name="_method" value="PATCH">
 New email:
 <input type="text" name="email" value="<%=@user.email%>"><br>
 <br><br>

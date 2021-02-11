@@ -1,8 +1,9 @@
-require 'pry'
+# require 'rack-flash'
 
 class UsersController < ApplicationController
 
     get '/' do
+        # flash[:message] = "Hooray, Flash is working!"
         erb :index
     end
 
