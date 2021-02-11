@@ -11,11 +11,9 @@ class UsersController < ApplicationController
         if Helpers.is_logged_in?(session)
             redirect '/decks'
         else
-            @user = User.new(:username => params[:username], :password => params[:password], :email => params[:email])
-            if @user.username !="" && @user.username !=nil && @user.password !="" && @user.password != nil && @user.email !="" && @user.email != nil
-                #theres another way to write ^this using params.has_value?
-                @user.save #save the user to create a primary key / id
-                session[:id] = @user.id #now that we have access to the id, we can assign it to the session hash
+            if params[:username].present? && params[:password].present? && params[:email].present? #can I refactor?
+                @user = User.create(:username => params[:username], :password => params[:password], :email => params[:email])
+                session[:id] = @user.id
                 redirect "/decks"
             else
                 # flash[:errors] = "Account creation failure - make sure you provide an email, username, and password."
