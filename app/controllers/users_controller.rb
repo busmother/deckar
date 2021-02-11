@@ -3,12 +3,16 @@
 class UsersController < ApplicationController
 
     get '/' do
+        if Helpers.is_logged_in?(session) #this isn't working, when creating new users it says true
+            redirect '/decks'
+        end
         # flash[:message] = "Hooray, Flash is working!"
         erb :index
     end
 
-    post '/signup' do
-        if Helpers.is_logged_in?(session)
+    post '/signup' do #create action, creates one user
+        # binding.pry
+        if Helpers.is_logged_in?(session) #this isn't working, when creating new users it says true
             redirect '/decks'
         else
             if params[:username].present? && params[:password].present? && params[:email].present? #can I refactor?
@@ -16,15 +20,14 @@ class UsersController < ApplicationController
                 session[:id] = @user.id
                 redirect "/decks"
             else
-                # flash[:errors] = "Account creation failure - make sure you provide an email, username, and password."
+                @error = "Account creation failure - make sure you provide an email, username, and password."
                 redirect '/'
             end
         end
     end
 
     post '/login' do
-        # binding.pry
-        @user = User.find_by(:username => params[:username]) #this doesn't find the user
+        @user = User.find_by(:username => params[:username])
         if @user && @user.authenticate(params[:password])
             session[:id] = @user.id
             redirect '/decks'
@@ -39,22 +42,7 @@ class UsersController < ApplicationController
         redirect '/'
     end
 
-    get '/users/:slug' do
-        @user = User.find_by_slug(slug)
-        erb :'/users/show'
-    end
-
-    def create #this is untested and wildly experimental ;)
-        @user = User.create(user_params)
-        if @user.valid?
-            redirect_to user_path(@user)
-        else
-            flash[:my_errors] = @user.errors.full_messages
-            redirect_to new_user_path
-        end
-    end
-
-    get '/users' do
+    get '/users' do #show action, displays one user's info based on the session
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
             erb :'users/user_settings'
@@ -63,7 +51,7 @@ class UsersController < ApplicationController
         end
     end
 
-    get '/users/:slug/edit' do
+    get '/users/:slug/edit' do #edit action, displays edit form based on the slug in the URL
         if Helpers.is_logged_in?(session)
             if params[:slug] == Helpers.current_user(session).slug
                 @user = Helpers.current_user(session)
@@ -78,7 +66,7 @@ class UsersController < ApplicationController
         end
     end
 
-    patch '/users/:slug' do
+    patch '/users/:slug' do #update action, modifies existing user based on the session
         if Helpers.is_logged_in?(session)
             if params[:slug] == Helpers.current_user(session).slug
                 @user = Helpers.current_user(session)
@@ -96,7 +84,7 @@ class UsersController < ApplicationController
         end
     end
 
-    delete '/users/:slug' do 
+    delete '/users/:slug' do #delete action, deletes one user based on the session and the slug in URL
         if Helpers.is_logged_in?(session)
             if params[:slug] == Helpers.current_user(session).slug
                 @user = Helpers.current_user(session)
