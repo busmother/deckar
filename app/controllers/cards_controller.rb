@@ -130,4 +130,7 @@ class CardsController < ApplicationController
         end
     end
 
+    #create private method for @ids in the cards controller since it's only used here
+    # -or- create it in the app controller since the others inherit from there
+
 end

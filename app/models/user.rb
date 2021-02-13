@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
     validates :password, presence: true
     validates :password, length: {minimum: 1}
 
+    #test these below
+    validates_presence_of :username, :email, :password
+    validates_uniqueness_of :username, :email
     def slug
         self.username.gsub(" ","-")
     end
