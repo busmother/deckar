@@ -22,14 +22,13 @@ class CardsController < ApplicationController
 
     post '/decks/:slug/cards' do #create action, creates cards
         if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
             params[:front].each_with_index do |front, i|
                 front = params[:front][i]
                 back = params[:back][i]
                 card = Card.create(front: front, back: back, deck_id: @deck.id)
             end
-            @ids = [] #refactor the @ids array code so I can call it as a method
+            @ids = []
             @deck.cards.each do |card|
                 @ids << card.id
             end
@@ -42,10 +41,9 @@ class CardsController < ApplicationController
 
     get '/decks/:slug/cards/:id' do #show action, displays one card based on id in URL
         if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
             @cards = @deck.cards
-            @ids = [] #refactor the @ids array code so I can call it as a method
+            @ids = [] 
             @cards.each do |card|
                 @ids << card.id
             end
@@ -59,7 +57,6 @@ class CardsController < ApplicationController
 
     get '/decks/:slug/cards/:id/back' do #show action, displays one card based on id in URL
         if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
             @cards = @deck.cards
             @ids = [] #refactor the @ids array code so I can call it as a method
@@ -67,7 +64,7 @@ class CardsController < ApplicationController
                 @ids << card.id
             end
             @card = @cards.find_by_id(params[:id])
-            erb :'cards/cards_show_back' #this is the only difference between this route and the one above, can I refactor?
+            erb :'cards/cards_show_back'
         else
             @error = "Please sign in to play"
             redirect '/'
@@ -101,7 +98,7 @@ class CardsController < ApplicationController
             @card.front = params[:front]
             @card.back = params[:back]
             @card.save
-            @ids = [] #refactor the @ids array code so I can call it as a method
+            @ids = []
             @cards.each do |card|
                 @ids << card.id
             end
@@ -129,8 +126,5 @@ class CardsController < ApplicationController
             redirect '/'
         end
     end
-
-    #create private method for @ids in the cards controller since it's only used here
-    # -or- create it in the app controller since the others inherit from there
 
 end

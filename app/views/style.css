@@ -1,8 +1,9 @@
 body {
-    background-color: #00b3e6;
+    background: grey;
   }
 
 .card {
     background: white;
     padding: 30px;
+    border: greenyellow;
 }
