@@ -1,5 +1,3 @@
-# require 'rack-flash'
-
 class DecksController < ApplicationController
 
     get '/decks' do #index action, index page to display all decks
@@ -8,7 +6,6 @@ class DecksController < ApplicationController
             @decks = Deck.all
             erb :'decks/decks_all'
         else
-            @error = "Please sign in to view decks"
             redirect '/'
         end
     end
@@ -17,7 +14,6 @@ class DecksController < ApplicationController
         if Helpers.is_logged_in?(session)
             erb :'decks/new'
         else
-            @error = "Please sign in to create decks"
             redirect '/'
         end
     end
@@ -30,12 +26,10 @@ class DecksController < ApplicationController
                 @number_of_cards = params[:number].to_i
                 erb :'cards/add_cards'
             else
-                @error = "Your deck must have a name"
                 redirect '/decks/new'
             end
 
         else
-            @error = "Please sign in to add cards"
             redirect '/'
         end
     end
@@ -47,23 +41,20 @@ class DecksController < ApplicationController
             @number_of_cards = params[:number].to_i
             erb :'cards/add_cards'
         else
-            @error = "Please sign in to add cards"
             redirect '/'
         end
     end
 
     get '/decks/:slug' do #show action, displays one deck based on the slug in the URL
         if Helpers.is_logged_in?(session)
-            @user = Helpers.current_user(session)
             @deck = Deck.find_by_slug(params[:slug])
             @cards = @deck.cards
-            @ids = [] #refactor the @ids array code so I can call it as a method
+            @ids = []
             @cards.each do |card|
                 @ids << card.id
             end
             erb :'/decks/deck_show'
         else
-            @error = "Please sign in to view decks"
             redirect '/'
         end
     end
@@ -75,7 +66,6 @@ class DecksController < ApplicationController
             @cards = @deck.cards
             erb :'/decks/edit'
         else
-            @error = "Please sign in to edit deck"
             redirect '/'
         end
     end
@@ -88,7 +78,6 @@ class DecksController < ApplicationController
             @deck.save
             redirect "/decks/#{@deck.slug}"
         else
-            @error = "Please sign in to view deck"
             redirect '/'
         end
     end
@@ -96,7 +85,7 @@ class DecksController < ApplicationController
     delete '/decks/:slug' do #delete action, deletes one deck based on the slug in the URL
         if Helpers.is_logged_in?(session)
             @user = Helpers.current_user(session)
-            @deck = Deck.find_by_slug(params[:slug])
+            @deck = @user.decks.find_by_slug(params[:slug])
             @deck.cards.each do |card|
                 card.delete
             end
