@@ -1,12 +1,16 @@
 <h3>Your info:</h3>
 <h5>Email:</h5><%=@user.email%><br>
 <h5>Username:</h5><%=@user.username%><br><br>
+
 <form action="/users/<%=@user.slug%>/edit" method="GET">
-<button type="submit" value="edit">Edit Info</button>
+    <button type="submit" value="edit">Edit Info</button>
 </form>
+
 <br><br>
+
 <form action="users/<%=@user.slug%>" method="POST">
-<input id="hidden" type="hidden" name="_method" value="delete">
-<button type="submit" value="delete">Delete your account</button>
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <button type="submit" value="delete">Delete your account</button>
 </form>
+
 <em>Note that deleting your account will delete all associated Decks and Cards</em>

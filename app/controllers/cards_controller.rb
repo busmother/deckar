@@ -53,7 +53,7 @@ class CardsController < ApplicationController
         if Helpers.is_logged_in?(session)
             @deck = Deck.find_by_slug(params[:slug])
             @cards = @deck.cards
-            @ids = [] #refactor the @ids array code so I can call it as a method
+            @ids = []
             @cards.each do |card|
                 @ids << card.id
             end
@@ -73,7 +73,6 @@ class CardsController < ApplicationController
                 @card = @cards.find_by_id(params[:id])
                 erb :'/cards/edit'
             else
-                @error = "Please sign in to edit deck"
                 redirect "/decks/#{@deck.slug}/cards/#{@card.id}"
             end
             else
