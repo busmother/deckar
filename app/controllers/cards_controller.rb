@@ -1,12 +1,9 @@
-# require 'rack-flash'
-
 class CardsController < ApplicationController
 
     get '/decks/:slug/cards' do #new action, displays create cards form
         if Helpers.is_logged_in?(session)
             erb :'/decks/deck_show'
         else
-            @error = "Please sign in to add cards"
             redirect '/'
         end
     end
@@ -15,7 +12,6 @@ class CardsController < ApplicationController
         if Helpers.is_logged_in?(session)
             erb :'/cards/add_cards'
         else
-            @error = "please sign in to add cards"
             redirect '/'
         end
     end
@@ -34,7 +30,6 @@ class CardsController < ApplicationController
             end
             erb :'/decks/deck_show'
         else
-            @error = "Please sign in to view decks"
             redirect '/'
         end
     end
@@ -50,7 +45,6 @@ class CardsController < ApplicationController
             @card = @cards.find_by_id(params[:id])
             erb :'cards/cards_show_front'
         else
-            @error = "Please sign in to play"
             redirect '/'
         end
     end
@@ -66,7 +60,6 @@ class CardsController < ApplicationController
             @card = @cards.find_by_id(params[:id])
             erb :'cards/cards_show_back'
         else
-            @error = "Please sign in to play"
             redirect '/'
         end
     end
@@ -84,7 +77,6 @@ class CardsController < ApplicationController
                 redirect "/decks/#{@deck.slug}/cards/#{@card.id}"
             end
             else
-            @error = "Please sign in to view deck"
             redirect '/'
         end
     end
@@ -104,7 +96,6 @@ class CardsController < ApplicationController
             end
             redirect "/decks/#{@deck.slug}/cards/#{@card.id}"
         else
-            @error = "Please sign in to edit card"
             redirect '/'
         end
     end
@@ -122,7 +113,6 @@ class CardsController < ApplicationController
             end
             erb :'decks/deck_show'
         else
-            @error = "Please sign in to modify your deck"
             redirect '/'
         end
     end
